@@ -447,30 +447,64 @@
     }
   }
 
-  .quick-add-bar {
-    width: 100%;
-    padding: 10px 16px;
+.quick-add-bar {
+    // 1. Căn chỉnh bố cục tổng thể của nút
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%; 
+    margin: 0 auto; // Căn giữa nút
+    padding: 6px 6px 6px 16px; // Giảm padding phải để nhường chỗ cho vòng tròn
     background: rgba(26, 25, 23, 0.92);
     backdrop-filter: blur(12px);
     border: none;
     border-radius: 999px;
     font-family: 'Outfit', sans-serif;
-    font-size: 12px;
+    font-size: 13px; // Tăng size chữ một chút cho dễ đọc
     font-weight: 600;
     letter-spacing: 0.04em;
-    color: var(--color-text-primary, #18181B);
+    color: #FFFFFF; // Đổi màu chữ mặc định thành trắng để nổi bật trên nền đen
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    text-align: center;
+    transition: background 0.2s, color 0.2s, transform 0.2s ease;
 
     &:hover:not(.disabled) {
-      background: var(--color-text-primary, #18181B);
-      color: #fff;
+      background: #000000;
+      transform: translateY(-2px); // Hiệu ứng nảy lên nhẹ khi di chuột
+      
+      .btn-icon-circle {
+        background-color: rgba(255, 255, 255, 0.25);
+      }
     }
 
     &.disabled {
       opacity: 0.55;
       cursor: default;
+      justify-content: center; // Đưa chữ về giữa khi hết hàng (không có icon)
+    }
+
+    // 2. Căn giữa đoạn text "Chọn phiên bản"
+    span {
+      flex: 1;
+      text-align: center;
+      padding-left: 28px; // Bù trừ khoảng trống của nút icon để chữ nằm chính giữa hoàn hảo
+    }
+
+    // 3. Định dạng vòng tròn chứa mũi tên
+    .btn-icon-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: background-color 0.2s;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ export const environment: IEnvironment = {
     api: 'http://localhost:5178',
     baseUrlCore: 'http://localhost:5178',
     clientId: 'client-web',
-    clientSecret: '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',
+    clientSecret: 'c8a2e7c1-8d5f-4a3b-9e2a-7f6d5c4b3a21', // Sửa dòng này
     scopes: 'offline_access',
     firebase: {
         apiKey: "AIzaSyAKoAu5qPLcI7ir8Jk0-wKxamHERQGNYrA",

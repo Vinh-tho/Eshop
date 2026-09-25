@@ -1,31 +1,40 @@
 import {
-  Component, OnInit, OnDestroy, signal, computed,
-  HostListener
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { Subject, takeUntil, finalize } from 'rxjs';
+  Component,
+  OnInit,
+  OnDestroy,
+  signal,
+  computed,
+  HostListener,
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { Subject, takeUntil, finalize } from "rxjs";
 
-import { ProductService } from '../../../product-manager/services/product.service';
-import { IProduct, IProductVariant, IVariantAttribute, ProductResponseDto } from '../../../product-manager/models/product.model';
-import { ProductFilterModel } from '../../../product-manager/models/product-filter.model';
-import { CategoryService } from '../../services/category.service';
-import { CartService } from '../../../cart/services/cart.service';
-import { environment } from '../../../../my-lib/shared/enviroments/enviroment';
+import { ProductService } from "../../../product-manager/services/product.service";
+import {
+  IProduct,
+  IProductVariant,
+  IVariantAttribute,
+  ProductResponseDto,
+} from "../../../product-manager/models/product.model";
+import { ProductFilterModel } from "../../../product-manager/models/product-filter.model";
+import { CategoryService } from "../../services/category.service";
+import { CartService } from "../../../cart/services/cart.service";
+import { environment } from "../../../../my-lib/shared/enviroments/enviroment";
 
 interface ToastMessage {
   id: number;
-  type: 'success' | 'error';
+  type: "success" | "error";
   text: string;
 }
 
 @Component({
-  selector: 'app-product-page',
+  selector: "app-product-page",
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './product-page.component.html',
-  styleUrls: ['./product-page.component.scss']
+  templateUrl: "./product-page.component.html",
+  styleUrls: ["./product-page.component.scss"],
 })
 export class ProductPageComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
@@ -37,10 +46,14 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   totalPages = signal<number>(0);
   currentPage = signal<number>(1);
 
-  filter = new ProductFilterModel({ pageIndex: 1, pageSize: 12, isActive: undefined });
+  filter = new ProductFilterModel({
+    pageIndex: 1,
+    pageSize: 12,
+    isActive: undefined,
+  });
   minPrice: number | null = null;
   maxPrice: number | null = null;
-  selectedSort = 'name_asc';
+  selectedSort = "name_asc";
   selectedCategoryId = signal<number | null>(null);
 
   hasProducts = computed(() => this.products().length > 0);
@@ -72,7 +85,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     if (!p?.variants?.length) return [];
     const colors = new Set<string>();
     for (const v of p.variants) {
-      const c = this.extractAttr(v, 'color');
+      const c = this.extractAttr(v, "color");
       if (c) colors.add(c);
     }
     return [...colors];
@@ -85,15 +98,18 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     const color = this.selectedColor();
     const sizeMap = new Map<string, boolean>();
     for (const v of p.variants) {
-      const s = this.extractAttr(v, 'size');
+      const s = this.extractAttr(v, "size");
       if (!s) continue;
-      const c = this.extractAttr(v, 'color');
+      const c = this.extractAttr(v, "color");
       const colorMatch = !color || c === color;
       const inStock = v.stockQuantity > 0;
       if (!sizeMap.has(s)) sizeMap.set(s, false);
       if (colorMatch && inStock) sizeMap.set(s, true);
     }
-    return [...sizeMap.entries()].map(([value, available]) => ({ value, available }));
+    return [...sizeMap.entries()].map(([value, available]) => ({
+      value,
+      available,
+    }));
   });
 
   /** Variant matching selected color + size */
@@ -102,19 +118,21 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     if (!p?.variants?.length) return null;
     const color = this.selectedColor();
     const size = this.selectedSize();
-    return p.variants.find(v => {
-      const c = this.extractAttr(v, 'color');
-      const s = this.extractAttr(v, 'size');
-      const colorOk = !color || c === color;
-      const sizeOk = !size || s === size;
-      return colorOk && sizeOk && v.stockQuantity > 0;
-    }) ?? null;
+    return (
+      p.variants.find((v) => {
+        const c = this.extractAttr(v, "color");
+        const s = this.extractAttr(v, "size");
+        const colorOk = !color || c === color;
+        const sizeOk = !size || s === size;
+        return colorOk && sizeOk && v.stockQuantity > 0;
+      }) ?? null
+    );
   });
 
   /** Displayed price in modal */
   modalPrice = computed<string>(() => {
     const p = this.quickAddProduct();
-    if (!p) return '';
+    if (!p) return "";
     const variant = this.selectedVariant();
     if (variant) return this.formatPrice(p.price + variant.priceAdjustment);
     if (!p.variants?.length) return this.formatPrice(p.price);
@@ -147,8 +165,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
-    private cartService: CartService
-  ) { }
+    private cartService: CartService,
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -159,14 +177,14 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    document.body.style.overflow = '';
+    document.body.style.overflow = "";
   }
 
   // ── Close dropdown when clicking outside ──────────────────────────────
-  @HostListener('document:click', ['$event'])
+  @HostListener("document:click", ["$event"])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    if (!target.closest('.filter-item')) {
+    if (!target.closest(".filter-item")) {
       this.activeDropdown.set(null);
     }
   }
@@ -174,7 +192,8 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   // ── Products ──────────────────────────────────────────────────────────
   loadProducts(): void {
     this.loading.set(true);
-    this.productService.getProducts(this.filter)
+    this.productService
+      .getProducts(this.filter)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: ProductResponseDto) => {
@@ -184,15 +203,15 @@ export class ProductPageComponent implements OnInit, OnDestroy {
           this.currentPage.set(response.page);
           this.loading.set(false);
         },
-        error: () => this.loading.set(false)
+        error: () => this.loading.set(false),
       });
   }
 
   onSortChange(value: string): void {
     this.selectedSort = value;
-    const [sortBy, sortOrder] = value.split('_');
+    const [sortBy, sortOrder] = value.split("_");
     this.filter.sortBy = sortBy;
-    this.filter.sortOrder = sortOrder as 'asc' | 'desc';
+    this.filter.sortOrder = sortOrder as "asc" | "desc";
     this.filter.pageIndex = 1;
     this.activeDropdown.set(null);
     this.loadProducts();
@@ -236,7 +255,11 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     let last: number | undefined;
 
     for (let i = 1; i <= total; i++) {
-      if (i === 1 || i === total || (i >= current - delta && i <= current + delta)) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
         range.push(i);
       }
     }
@@ -253,13 +276,13 @@ export class ProductPageComponent implements OnInit, OnDestroy {
 
   getSortLabel(): string {
     const map: Record<string, string> = {
-      'name_asc': 'Tên A–Z',
-      'name_desc': 'Tên Z–A',
-      'price_asc': 'Giá thấp → cao',
-      'price_desc': 'Giá cao → thấp',
-      'createdAt_desc': 'Mới nhất',
+      name_asc: "Tên A–Z",
+      name_desc: "Tên Z–A",
+      price_asc: "Giá thấp → cao",
+      price_desc: "Giá cao → thấp",
+      createdAt_desc: "Mới nhất",
     };
-    return map[this.selectedSort] ?? 'Sắp xếp';
+    return map[this.selectedSort] ?? "Sắp xếp";
   }
 
   // ── Filter Dropdown ───────────────────────────────────────────────────
@@ -291,10 +314,12 @@ export class ProductPageComponent implements OnInit, OnDestroy {
 
   // ── Variant helpers ────────────────────────────────────────────────────
   private extractAttr(variant: IProductVariant, type: string): string | null {
-    if (type === 'color' && variant.color) return variant.color;
-    if (type === 'size' && variant.size) return variant.size;
+    if (type === "color" && variant.color) return variant.color;
+    if (type === "size" && variant.size) return variant.size;
     const attr = variant.attributes?.find(
-      a => a.attributeName.toLowerCase() === type || a.attributeType.toLowerCase() === type
+      (a) =>
+        a.attributeName.toLowerCase() === type ||
+        a.attributeType.toLowerCase() === type,
     );
     return attr?.displayValue ?? null;
   }
@@ -303,7 +328,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     if (!product.variants?.length) return [];
     const colors = new Set<string>();
     for (const v of product.variants) {
-      const c = this.extractAttr(v, 'color');
+      const c = this.extractAttr(v, "color");
       if (c) colors.add(c);
     }
     return [...colors];
@@ -313,7 +338,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     if (!product.variants?.length) return [];
     const sizes = new Set<string>();
     for (const v of product.variants) {
-      const s = this.extractAttr(v, 'size');
+      const s = this.extractAttr(v, "size");
       if (s) sizes.add(s);
     }
     return [...sizes];
@@ -321,12 +346,18 @@ export class ProductPageComponent implements OnInit, OnDestroy {
 
   getMinPrice(product: IProduct): number {
     if (!product.variants?.length) return product.price;
-    return product.price + Math.min(...product.variants.map(v => v.priceAdjustment));
+    return (
+      product.price +
+      Math.min(...product.variants.map((v) => v.priceAdjustment))
+    );
   }
 
   getMaxPrice(product: IProduct): number {
     if (!product.variants?.length) return product.price;
-    return product.price + Math.max(...product.variants.map(v => v.priceAdjustment));
+    return (
+      product.price +
+      Math.max(...product.variants.map((v) => v.priceAdjustment))
+    );
   }
 
   hasPriceRange(product: IProduct): boolean {
@@ -339,34 +370,66 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   isColorCode(color: string): boolean {
-    return color.startsWith('#') || color.startsWith('rgb') || color.startsWith('hsl');
+    return (
+      color.startsWith("#") ||
+      color.startsWith("rgb") ||
+      color.startsWith("hsl")
+    );
   }
 
   colorToCss(color: string): string {
     if (this.isColorCode(color)) return color;
     const map: Record<string, string> = {
-      'red': '#ef4444', 'blue': '#3b82f6', 'green': '#22c55e',
-      'black': '#18181b', 'white': '#f9fafb', 'gray': '#71717a',
-      'yellow': '#eab308', 'pink': '#ec4899', 'purple': '#a855f7',
-      'orange': '#f97316', 'brown': '#92400e', 'navy': '#1e3a8a',
-      'silver': '#94a3b8', 'gold': '#d97706', 'beige': '#e9d5b5',
+      red: "#ef4444",
+      blue: "#3b82f6",
+      green: "#22c55e",
+      black: "#18181b",
+      white: "#f9fafb",
+      gray: "#71717a",
+      yellow: "#eab308",
+      pink: "#ec4899",
+      purple: "#a855f7",
+      orange: "#f97316",
+      brown: "#92400e",
+      navy: "#1e3a8a",
+      silver: "#94a3b8",
+      gold: "#d97706",
+      beige: "#e9d5b5",
     };
-    return map[color.toLowerCase()] ?? '#71717a';
+    return map[color.toLowerCase()] ?? "#71717a";
   }
 
   getProductImage(product: any): string {
-    const relativeUrl = product.imageUrls?.[0] || product.image;
-    if (relativeUrl) {
-      if (relativeUrl.startsWith('http')) return relativeUrl;
-      const baseUrl = environment.api.replace(/\/$/, '');
-      const path = relativeUrl.startsWith('/') ? relativeUrl : `/${relativeUrl}`;
-      return `${baseUrl}${path}`;
+    // Lấy tên sản phẩm và chuyển thành chữ thường để dễ kiểm tra
+    const productName = product.name ? product.name.toLowerCase() : "";
+
+    // Dựa vào tên sản phẩm để trả về đường link ảnh tương ứng
+    if (productName.includes("iphone")) {
+      // Đã đổi sang ảnh iPhone cận cảnh, sang trọng
+      return "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop";
     }
-    return 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800';
+
+    if (productName.includes("macbook")) {
+      return "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop";
+    }
+
+    if (productName.includes("dell")) {
+      return "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=800&auto=format&fit=crop";
+    }
+
+    if (productName.includes("samsung")) {
+      return "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?q=80&w=800&auto=format&fit=crop";
+    }
+
+    // Nếu sau này có thêm sản phẩm lạ khác, sẽ dùng ảnh mặc định này
+    return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop";
   }
 
   formatPrice(value: number): string {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value);
   }
 
   getSkeletonItems(): number[] {
@@ -380,16 +443,16 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     this.selectedSize.set(null);
     this.popupQuantity.set(1);
     this.quickAddProduct.set(product);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   }
 
   closeQuickAdd(): void {
     this.quickAddProduct.set(null);
-    document.body.style.overflow = '';
+    document.body.style.overflow = "";
   }
 
   closeQuickAddOnBackdrop(event: MouseEvent): void {
-    if ((event.target as HTMLElement).classList.contains('modal-backdrop')) {
+    if ((event.target as HTMLElement).classList.contains("modal-backdrop")) {
       this.closeQuickAdd();
     }
   }
@@ -399,7 +462,7 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     const sizes = this.modalSizes();
     const current = this.selectedSize();
     if (current) {
-      const stillAvail = sizes.find(s => s.value === current && s.available);
+      const stillAvail = sizes.find((s) => s.value === current && s.available);
       if (!stillAvail) this.selectedSize.set(null);
     }
   }
@@ -411,13 +474,13 @@ export class ProductPageComponent implements OnInit, OnDestroy {
 
   increasePopupQty(): void {
     if (this.popupQuantity() < this.modalMaxStock()) {
-      this.popupQuantity.update(q => q + 1);
+      this.popupQuantity.update((q) => q + 1);
     }
   }
 
   decreasePopupQty(): void {
     if (this.popupQuantity() > 1) {
-      this.popupQuantity.update(q => q - 1);
+      this.popupQuantity.update((q) => q - 1);
     }
   }
 
@@ -429,24 +492,40 @@ export class ProductPageComponent implements OnInit, OnDestroy {
     if (!variant) return;
 
     this.isAddingToCartModal.set(true);
-    this.cartService.addToCart({ productVariantId: variant.id, quantity: this.popupQuantity() })
+    this.cartService
+      .addToCart({
+        productVariantId: variant.id,
+        quantity: this.popupQuantity(),
+      })
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => this.isAddingToCartModal.set(false))
+        finalize(() => this.isAddingToCartModal.set(false)),
       )
       .subscribe({
         next: (res) => {
           if (res.success) {
-            this.showToast('success', `Đã thêm "${product.name}" vào giỏ hàng.`);
+            this.showToast(
+              "success",
+              `Đã thêm "${product.name}" vào giỏ hàng.`,
+            );
             this.closeQuickAdd();
           } else {
-            this.showToast('error', this.cartService.getErrorMessage(res.statusCode, res.message));
+            this.showToast(
+              "error",
+              this.cartService.getErrorMessage(res.statusCode, res.message),
+            );
           }
         },
         error: (err) => {
           const errorCode = err?.statusCode ?? 500;
-          this.showToast('error', this.cartService.getErrorMessage(errorCode, err?.message || err?.errors?.[0]));
-        }
+          this.showToast(
+            "error",
+            this.cartService.getErrorMessage(
+              errorCode,
+              err?.message || err?.errors?.[0],
+            ),
+          );
+        },
       });
   }
 
@@ -460,13 +539,13 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   // ── Toast ─────────────────────────────────────────────────────────────
-  private showToast(type: 'success' | 'error', text: string): void {
+  private showToast(type: "success" | "error", text: string): void {
     const id = ++this.toastIdCounter;
-    this.toasts.update(t => [...t, { id, type, text }]);
+    this.toasts.update((t) => [...t, { id, type, text }]);
     setTimeout(() => this.dismissToast(id), 3000);
   }
 
   dismissToast(id: number): void {
-    this.toasts.update(t => t.filter(x => x.id !== id));
+    this.toasts.update((t) => t.filter((x) => x.id !== id));
   }
 }
