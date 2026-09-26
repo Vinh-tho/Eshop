@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -19,21 +20,21 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    AttributeType = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    IsFilterable = table.Column<bool>(type: "bit", nullable: false),
-                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
-                    IsVariantDefining = table.Column<bool>(type: "bit", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    AttributeType = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    IsFilterable = table.Column<bool>(type: "boolean", nullable: false),
+                    DisplayOrder = table.Column<int>(type: "integer", nullable: false),
+                    IsVariantDefining = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,18 +47,18 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ParentId = table.Column<int>(type: "int", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    Slug = table.Column<string>(type: "varchar(256)", unicode: false, maxLength: 256, nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ParentId = table.Column<int>(type: "integer", nullable: true),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Slug = table.Column<string>(type: "character varying(256)", unicode: false, maxLength: 256, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,22 +77,22 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    DiscountType = table.Column<int>(type: "int", nullable: false),
-                    DiscountValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    MinOrderValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    MaxDiscountValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    DiscountType = table.Column<int>(type: "integer", nullable: false),
+                    DiscountValue = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    MinOrderValue = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
+                    MaxDiscountValue = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpiryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UsageLimit = table.Column<int>(type: "int", nullable: true),
-                    UsedCount = table.Column<int>(type: "int", nullable: false),
-                    UsageLimitPerUser = table.Column<int>(type: "int", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    UsageLimit = table.Column<int>(type: "integer", nullable: true),
+                    UsedCount = table.Column<int>(type: "integer", nullable: false),
+                    UsageLimitPerUser = table.Column<int>(type: "integer", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,22 +103,22 @@ namespace eShop.API.Migrations
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ApplicationType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ClientId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ClientSecret = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClientType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ConcurrencyToken = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ConsentType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DisplayNames = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    JsonWebKeySet = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Permissions = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostLogoutRedirectUris = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Properties = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RedirectUris = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Requirements = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Settings = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    ApplicationType = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    ClientId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    ClientSecret = table.Column<string>(type: "text", nullable: true),
+                    ClientType = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    ConcurrencyToken = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    ConsentType = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    DisplayName = table.Column<string>(type: "text", nullable: true),
+                    DisplayNames = table.Column<string>(type: "text", nullable: true),
+                    JsonWebKeySet = table.Column<string>(type: "text", nullable: true),
+                    Permissions = table.Column<string>(type: "text", nullable: true),
+                    PostLogoutRedirectUris = table.Column<string>(type: "text", nullable: true),
+                    Properties = table.Column<string>(type: "text", nullable: true),
+                    RedirectUris = table.Column<string>(type: "text", nullable: true),
+                    Requirements = table.Column<string>(type: "text", nullable: true),
+                    Settings = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -128,15 +129,15 @@ namespace eShop.API.Migrations
                 name: "OpenIddictScopes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ConcurrencyToken = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Descriptions = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DisplayNames = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Properties = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Resources = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    ConcurrencyToken = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Descriptions = table.Column<string>(type: "text", nullable: true),
+                    DisplayName = table.Column<string>(type: "text", nullable: true),
+                    DisplayNames = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    Properties = table.Column<string>(type: "text", nullable: true),
+                    Resources = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -149,11 +150,11 @@ namespace eShop.API.Migrations
                 columns: table => new
                 {
                     PermissionKey = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    PermissionGroup = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    DisplayName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    PermissionGroup = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "SYSUTCDATETIME()"),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -165,18 +166,18 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -188,10 +189,10 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: false),
-                    SendCount = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Email = table.Column<string>(type: "character varying(128)", unicode: false, maxLength: 128, nullable: false),
+                    SendCount = table.Column<int>(type: "integer", nullable: false),
                     LastSentDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimeLimitCanVerifyOtp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -205,12 +206,12 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    GrName = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: false),
-                    VarName = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: false),
-                    VarValue = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: false),
-                    VarDesc = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    GrName = table.Column<string>(type: "character varying(128)", unicode: false, maxLength: 128, nullable: false),
+                    VarName = table.Column<string>(type: "character varying(128)", unicode: false, maxLength: 128, nullable: false),
+                    VarValue = table.Column<string>(type: "character varying(128)", unicode: false, maxLength: 128, nullable: false),
+                    VarDesc = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -222,31 +223,31 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    Email = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: false),
-                    Phone = table.Column<string>(type: "varchar(20)", unicode: false, maxLength: 20, nullable: true),
-                    PasswordHash = table.Column<string>(type: "varchar(256)", unicode: false, maxLength: 256, nullable: false),
-                    IsTempPassword = table.Column<bool>(type: "bit", nullable: false),
-                    PinCode = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: true),
-                    IsTempPin = table.Column<bool>(type: "bit", nullable: false),
-                    UserType = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    IsFirstTime = table.Column<bool>(type: "bit", nullable: false),
-                    LoginFailCount = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Username = table.Column<string>(type: "character varying(50)", unicode: false, maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "character varying(128)", unicode: false, maxLength: 128, nullable: false),
+                    Phone = table.Column<string>(type: "character varying(20)", unicode: false, maxLength: 20, nullable: true),
+                    PasswordHash = table.Column<string>(type: "character varying(256)", unicode: false, maxLength: 256, nullable: false),
+                    IsTempPassword = table.Column<bool>(type: "boolean", nullable: false),
+                    PinCode = table.Column<string>(type: "character varying(128)", unicode: false, maxLength: 128, nullable: true),
+                    IsTempPin = table.Column<bool>(type: "boolean", nullable: false),
+                    UserType = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    IsFirstTime = table.Column<bool>(type: "boolean", nullable: false),
+                    LoginFailCount = table.Column<int>(type: "integer", nullable: false),
                     DateTimeLoginFailCount = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TimeLockUser = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastLogin = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsOtpVerified = table.Column<bool>(type: "bit", nullable: false),
+                    IsOtpVerified = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -258,19 +259,19 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AttributeId = table.Column<int>(type: "int", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ColorHex = table.Column<string>(type: "nvarchar(7)", maxLength: 7, nullable: true),
-                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    AttributeId = table.Column<int>(type: "integer", nullable: false),
+                    Value = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    ColorHex = table.Column<string>(type: "character varying(7)", maxLength: 7, nullable: true),
+                    DisplayOrder = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,19 +290,19 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    AttributeId = table.Column<int>(type: "int", nullable: false),
-                    IsRequired = table.Column<bool>(type: "bit", nullable: false),
-                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CategoryId = table.Column<int>(type: "integer", nullable: false),
+                    AttributeId = table.Column<int>(type: "integer", nullable: false),
+                    IsRequired = table.Column<bool>(type: "boolean", nullable: false),
+                    DisplayOrder = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -327,20 +328,20 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    Slug = table.Column<string>(type: "varchar(256)", unicode: false, maxLength: 256, nullable: false),
-                    BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CategoryId = table.Column<int>(type: "integer", nullable: true),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Slug = table.Column<string>(type: "character varying(256)", unicode: false, maxLength: 256, nullable: false),
+                    BasePrice = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -358,21 +359,21 @@ namespace eShop.API.Migrations
                 name: "OpenIddictAuthorizations",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ApplicationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ConcurrencyToken = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    ApplicationId = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyToken = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Properties = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Scopes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Subject = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    Properties = table.Column<string>(type: "text", nullable: true),
+                    Scopes = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Subject = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: true),
+                    Type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OpenIddictAuthorizations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OpenIddictAuthorizations_OpenIddictApplications_ApplicationId",
+                        name: "FK_OpenIddictAuthorizations_OpenIddictApplications_Application~",
                         column: x => x.ApplicationId,
                         principalTable: "OpenIddictApplications",
                         principalColumn: "Id");
@@ -383,12 +384,12 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<int>(type: "integer", nullable: false),
                     PermissionKey = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -414,18 +415,18 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Province = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ReceiverName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    ReceiverPhone = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    Street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    City = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Province = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    ReceiverName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    ReceiverPhone = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
+                    IsDefault = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -444,20 +445,20 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OtpCode = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OtpCode = table.Column<string>(type: "character varying(128)", unicode: false, maxLength: 128, nullable: false),
                     ExpireTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsUsed = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    VerifyTime = table.Column<int>(type: "int", nullable: false),
+                    IsUsed = table.Column<bool>(type: "boolean", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    VerifyTime = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -476,17 +477,17 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -505,11 +506,11 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FcmToken = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: true),
-                    ApnsToken = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FcmToken = table.Column<string>(type: "character varying(128)", unicode: false, maxLength: 128, nullable: true),
+                    ApnsToken = table.Column<string>(type: "character varying(128)", unicode: false, maxLength: 128, nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -528,14 +529,14 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: true),
-                    AvatarUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Gender = table.Column<int>(type: "integer", nullable: true),
+                    AvatarUrl = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -554,17 +555,17 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    RoleId = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true)
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -590,19 +591,19 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    AttributeId = table.Column<int>(type: "int", nullable: false),
-                    AttributeValueId = table.Column<int>(type: "int", nullable: true),
-                    CustomValue = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    AttributeId = table.Column<int>(type: "integer", nullable: false),
+                    AttributeValueId = table.Column<int>(type: "integer", nullable: true),
+                    CustomValue = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -636,20 +637,20 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    SKU = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
-                    PriceAdjustment = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    StockQuantity = table.Column<int>(type: "int", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    SKU = table.Column<string>(type: "character varying(100)", unicode: false, maxLength: 100, nullable: false),
+                    PriceAdjustment = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    StockQuantity = table.Column<int>(type: "integer", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -668,12 +669,12 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    Rating = table.Column<int>(type: "integer", nullable: false),
+                    Comment = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -699,19 +700,19 @@ namespace eShop.API.Migrations
                 name: "OpenIddictTokens",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ApplicationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    AuthorizationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ConcurrencyToken = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    ApplicationId = table.Column<string>(type: "text", nullable: true),
+                    AuthorizationId = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyToken = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Payload = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Properties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Payload = table.Column<string>(type: "text", nullable: true),
+                    Properties = table.Column<string>(type: "text", nullable: true),
                     RedemptionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ReferenceId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Subject = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true)
+                    ReferenceId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Subject = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: true),
+                    Type = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -733,26 +734,26 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderCode = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ShippingAddress = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false),
-                    Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DiscountAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ShippingFee = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AddressesId = table.Column<int>(type: "int", nullable: true),
-                    Status = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    PaymentMethod = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderCode = table.Column<string>(type: "character varying(50)", unicode: false, maxLength: 50, nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    ShippingAddress = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: false),
+                    Subtotal = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    DiscountAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    ShippingFee = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    AddressesId = table.Column<int>(type: "integer", nullable: true),
+                    Status = table.Column<string>(type: "character varying(50)", unicode: false, maxLength: 50, nullable: false),
+                    PaymentMethod = table.Column<string>(type: "character varying(50)", unicode: false, maxLength: 50, nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "bytea", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -777,18 +778,18 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CartId = table.Column<int>(type: "int", nullable: false),
-                    ProductVariantId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CartId = table.Column<int>(type: "integer", nullable: false),
+                    ProductVariantId = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -814,20 +815,20 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    SortOrder = table.Column<int>(type: "int", nullable: false),
-                    IsPrimary = table.Column<bool>(type: "bit", nullable: false),
-                    ProductVariantId = table.Column<int>(type: "int", nullable: true),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    Url = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    SortOrder = table.Column<int>(type: "integer", nullable: false),
+                    IsPrimary = table.Column<bool>(type: "boolean", nullable: false),
+                    ProductVariantId = table.Column<int>(type: "integer", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -852,19 +853,19 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductVariantId = table.Column<int>(type: "int", nullable: false),
-                    AttributeId = table.Column<int>(type: "int", nullable: false),
-                    AttributeValueId = table.Column<int>(type: "int", nullable: true),
-                    CustomValue = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductVariantId = table.Column<int>(type: "integer", nullable: false),
+                    AttributeId = table.Column<int>(type: "integer", nullable: false),
+                    AttributeValueId = table.Column<int>(type: "integer", nullable: true),
+                    CustomValue = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -898,12 +899,12 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CouponId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    DiscountAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CouponId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    OrderId = table.Column<int>(type: "integer", nullable: false),
+                    DiscountAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     UsedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -937,14 +938,14 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    ProductVariantId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    ProductName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    VariantSKU = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderId = table.Column<int>(type: "integer", nullable: false),
+                    ProductVariantId = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    ProductName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    VariantSKU = table.Column<string>(type: "character varying(100)", unicode: false, maxLength: 100, nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -970,23 +971,23 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    Method = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderId = table.Column<int>(type: "integer", nullable: false),
+                    Method = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     PaidAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TransactionId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    GatewayResponseCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    GatewayResponseRaw = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PaymentUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TransactionId = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    GatewayResponseCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    GatewayResponseRaw = table.Column<string>(type: "text", nullable: true),
+                    PaymentUrl = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ExpiredAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RefundedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    RefundedAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: true),
                     RefundedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RefundReason = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    RefundReason = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1005,25 +1006,25 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    ShippingProvider = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TrackingNumber = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    ShippingFee = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ReceiverName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    ReceiverPhone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    ShippingAddress = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderId = table.Column<int>(type: "integer", nullable: false),
+                    ShippingProvider = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    TrackingNumber = table.Column<string>(type: "character varying(100)", unicode: false, maxLength: 100, nullable: true),
+                    ShippingFee = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    ReceiverName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    ReceiverPhone = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    ShippingAddress = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: false),
                     EstimatedDelivery = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ActualDelivery = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Status = table.Column<string>(type: "character varying(50)", unicode: false, maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1042,19 +1043,19 @@ namespace eShop.API.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderItemId = table.Column<int>(type: "int", nullable: false),
-                    RefundQuantity = table.Column<int>(type: "int", nullable: false),
-                    Reason = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Status = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderItemId = table.Column<int>(type: "integer", nullable: false),
+                    RefundQuantity = table.Column<int>(type: "integer", nullable: false),
+                    Reason = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    Status = table.Column<string>(type: "character varying(50)", unicode: false, maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    CreatedBy = table.Column<int>(type: "integer", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "integer", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<int>(type: "int", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: false)
+                    DeletedBy = table.Column<int>(type: "integer", nullable: true),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1167,8 +1168,7 @@ namespace eShop.API.Migrations
                 name: "IX_OpenIddictApplications_ClientId",
                 table: "OpenIddictApplications",
                 column: "ClientId",
-                unique: true,
-                filter: "[ClientId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictAuthorizations_ApplicationId_Status_Subject_Type",
@@ -1179,8 +1179,7 @@ namespace eShop.API.Migrations
                 name: "IX_OpenIddictScopes_Name",
                 table: "OpenIddictScopes",
                 column: "Name",
-                unique: true,
-                filter: "[Name] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictTokens_ApplicationId_Status_Subject_Type",
@@ -1196,8 +1195,7 @@ namespace eShop.API.Migrations
                 name: "IX_OpenIddictTokens_ReferenceId",
                 table: "OpenIddictTokens",
                 column: "ReferenceId",
-                unique: true,
-                filter: "[ReferenceId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_AddressesId",
@@ -1216,7 +1214,8 @@ namespace eShop.API.Migrations
                 name: "IX_Orders_UserId_Deleted",
                 schema: "dbo",
                 table: "Order",
-                columns: new[] { "UserId", "Deleted" });
+                columns: new[] { "UserId", "Deleted" })
+                .Annotation("Npgsql:IndexInclude", new[] { "TotalAmount", "CreatedDate", "Status", "OrderCode" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItem_OrderId",
